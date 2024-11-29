@@ -34,6 +34,16 @@ class Participant
     #[Assert\Email(message: 'Veuillez saisir une adresse email valide.')]
     private ?string $email = null;
 
+    #[ORM\Column(type: 'float', nullable: true)]
+    #[Assert\NotBlank(message: 'La latitude est obligatoire.')]
+    #[Assert\Range(min: -90, max: 90, notInRangeMessage: 'La latitude doit être comprise entre -90 et 90.')]
+    private ?float $latitude = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    #[Assert\NotBlank(message: 'La longitude est obligatoire.')]
+    #[Assert\Range(min: -180, max: 180, notInRangeMessage: 'La longitude doit être comprise entre -180 et 180.')]
+    private ?float $longitude = null;
+
     #[ORM\ManyToOne(targetEntity: Event::class, inversedBy: 'participants')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Event $event = null;
@@ -63,6 +73,30 @@ class Participant
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(float $latitude): self
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(float $longitude): self
+    {
+        $this->longitude = $longitude;
 
         return $this;
     }

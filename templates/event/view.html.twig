@@ -8,17 +8,19 @@
         </div>
         <div class="card-body">
             <p><strong>Date :</strong> {{ event.date|date('d/m/Y H:i') }}</p>
-            <p><strong>Localisation :</strong> {{ event.latitude }}, {{ event.longitude }}</p>
+            <p><strong>Localisation :</strong> latitude:  {{ event.latitude }} , longitude: {{ event.longitude }} longitude</p>
         </div>
     </div>
 
     <div class="mt-4">
         <h2>Participants</h2>
-        {% if event.participants|length > 0 %}
+        {% if participantsWithDistance|length > 0 %}
             <ul class="list-group">
-                {% for participant in event.participants %}
+                {% for item in participantsWithDistance %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        {{ participant.name }} <small class="text-muted">{{ participant.email }}</small>
+                        <p>{{ item.participant.name }}</p>
+                        <p class="text-muted">{{ item.participant.email }}</p>
+                        <p>Vous êtes à <strong style="color:red;">{{ item.distance }}km</strong> de l'événement.</p>
                     </li>
                 {% endfor %}
             </ul>
