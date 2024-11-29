@@ -28,12 +28,18 @@ class Event
 
     #[ORM\Column(type: 'datetime')]
     #[Assert\NotBlank(message: 'La date est obligatoire.')]
-    #[Assert\GreaterThanOrEqual('today', message: 'La date doit être dans le futur.')]
+    #[Assert\GreaterThanOrEqual('today', message: 'Veuillez entrer une date ultérieur à la date d\'aujourd d\'hui !')]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Le lieu est obligatoire.')]
-    private ?string $location = null;
+    #[ORM\Column(type: 'float', nullable: true)]
+    #[Assert\NotBlank(message: 'La latitude est obligatoire.')]
+    #[Assert\Range(min: -90, max: 90, notInRangeMessage: 'La latitude doit être comprise entre -90 et 90.')]
+    private ?float $latitude = null;
+
+    #[ORM\Column(type: 'float', nullable: true)]
+    #[Assert\NotBlank(message: 'La longitude est obligatoire.')]
+    #[Assert\Range(min: -180, max: 180, notInRangeMessage: 'La longitude doit être comprise entre -180 et 180.')]
+    private ?float $longitude = null;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: Participant::class, cascade: ['persist', 'remove'])]
     private Collection $participants;
@@ -72,17 +78,30 @@ class Event
         return $this;
     }
 
-    public function getLocation(): ?string
+    public function getLatitude(): ?float
     {
-        return $this->location;
+        return $this->latitude;
     }
 
-    public function setLocation(string $location): self
+    public function setLatitude(float $latitude): self
     {
-        $this->location = $location;
+        $this->latitude = $latitude;
 
         return $this;
     }
+
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(float $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
 
     /**
      * @return Collection<int, Participant>

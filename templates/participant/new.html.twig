@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un participant{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Ajouter un participant à l'événement "{{ event.name }}"</h3>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.name, 'Nom du participant', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Entrez le nom'}}) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Entrez une adresse email valide'}}) }}
+                            {{ form_errors(form.email) }}
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Ajouter</button>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="{{ path('event_details', {'id': event.id}) }}" class="btn btn-secondary">
+                    Retour à l'événement
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

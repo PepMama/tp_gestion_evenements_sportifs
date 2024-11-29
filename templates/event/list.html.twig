@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des événements{% endblock %}
+{% block content %}
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
+<div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h1>Liste des événements</h1>
+        <a href="{{ path('add_event')}}" class="btn btn-success">Ajouter un évènement</a>
+    </div>
+
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Date</th>
+            <th scope="col">Map</th>
+            <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+                {% for event in events %}
+                    <tr>
+                        <td>{{ event.id }}</td>
+                        <td>{{ event.name }}</td>
+                        <td>{{ event.date|date('d/m/Y H:i') }}</td>
+                        <td>{{ event.latitude }}, {{ event.longitude }} </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <a href="{{ path('event_details', {'id': event.id}) }}" class="btn btn-primary">Voir</a>
+                                <a href="{{ path('event_delete', {'id': event.id}) }}" class="btn btn-danger"  onclick="return confirm('Êtes-vous sûr de vouloir annuler cette évènement ?');">Supprimer</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
